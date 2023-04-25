@@ -1,4 +1,4 @@
-# FFPE-ST-probe-design-
+# FFPE ST probe design
 
 ## Files needed
 
