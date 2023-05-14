@@ -1,4 +1,4 @@
-# FFPE ST probe design
+# FFPE Visium probe design
 
 ## Files needed
 
