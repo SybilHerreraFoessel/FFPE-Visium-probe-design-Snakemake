@@ -1,13 +1,16 @@
 # FFPE Visium probe design
+This script developed by Ireen van Dolderen has been modified by Sybul Herrera Foessel to be run as a Snakemake pipeline.  
+
 
 ## Files needed
 
 - top10_marker_genes_T89.xlsx #Excel file with top X differentially expressed gene in clusters, generated using Seurat
 - markergenes_plus_conversion.xlsx #Excel file with marker genes based on literature research
-- primer3_intput_design_T89.py
+- primer3_input_design_T89.py
 - generate_probe_pairs.py
 - target_specificity_trim.py
 - select_probe_pairs.py
+- Snakefile_New2
 
 ## Output files
 
