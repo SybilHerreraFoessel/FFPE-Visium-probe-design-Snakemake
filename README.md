@@ -1,16 +1,18 @@
 # FFPE Visium probe design
-This script developed by Ireen van Dolderen has been modified by Sybul Herrera Foessel to be run as a Snakemake pipeline.  
+This pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be run as a Snakemake workflow system. In addition to the input files and the python files a Snakefile has been included as well as an probes_env.yaml file. Ireen used two input files, top10_marker_genes_T89.xlsx and markergenes_plus_conversion.xlsx, the first one with markers identified from cluster analysis and the second with markers from literature review. The top10_marker_genes_T89.xlsx can be used for pasting the new markers that you want to include in the 'gene' column and in markergenes_plus_conversion.xlsx the 'T 89' column is used by the first python script (primer3_input_design_T89.py) for extracting the entries (duplified are checked within the script).       
+
 
 
 ## Files needed
 
-- top10_marker_genes_T89.xlsx #Excel file with top X differentially expressed gene in clusters, generated using Seurat
-- markergenes_plus_conversion.xlsx #Excel file with marker genes based on literature research
+- top10_marker_genes_T89.xlsx #input file 1. 
+- markergenes_plus_conversion.xlsx #Excel file with marker genes based on literature research, input file 2. 
 - primer3_input_design_T89.py
 - generate_probe_pairs.py
 - target_specificity_trim.py
 - select_probe_pairs.py
 - Snakefile_New2
+- probes_env.yaml
 
 ## Output files
 
@@ -101,7 +103,6 @@ This script developed by Ireen van Dolderen has been modified by Sybul Herrera F
 - if probe pairs > 3, then do not accumulate more probes
 - (optional: remove sequences for which no probe pairs could be generated)
 
-## To be included in the future
+##  Assessing cross-probe hybridisation
 
-1. assessing hairpin structure 
-2. assessing cross-probe hybridisation
+## Visualization of snakemake workflow (dag)
