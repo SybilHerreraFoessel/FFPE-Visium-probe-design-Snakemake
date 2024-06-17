@@ -30,6 +30,7 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 
 ## Preparation
 
+1. Make a snakemake directory in ST-analysis server with your favorite name ($mkdir Snakemake_probes_design). 
 1. Differential gene expression analysis in R
 2. Marker gene identification from the literature
 3. download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
