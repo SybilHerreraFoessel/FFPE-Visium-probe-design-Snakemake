@@ -43,17 +43,18 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 11. Install blast $ mamba install blast
 
 ## Run Snakemake
+1. First make a dry run to see that everything is in place $ snakemake -c 1 -s Snakefile_New2 --use-conda -n
+2. Now run the workflow $ snakemake -c 1 --use-conda -s Snakefile_New2
+3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_New2 --rerun-incomplete
+4. If you want to delete outputs and run again $ snakemake --delete-all-output
 
 ## Visualization of snakemake workflow
-snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
-snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
-snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
-snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
+$ snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
+$ snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
+$ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
-![image](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/assets/102509405/a850eca0-f966-4e78-9bb3-5cf46910ce5c)
-
-##  Assessing cross-probe hybridisation
-Add Sybil, second Snakefile_New3
+##  Assessing cross-probe hybridisation and final output xlsx files for ordering primers
+Add Sybil, second Snakefile_New3 need to be prepared....
 
 
 
