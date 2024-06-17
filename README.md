@@ -30,9 +30,13 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 
 ## Preparation
 
-1. Make a snakemake directory in ST-analysis server with your favorite name ($mkdir Snakemake_probes_design). 
-1. Differential gene expression analysis in R
-2. Marker gene identification from the literature
+1. Make a snakemake directory in ST-analysis server with your favorite name ($ mkdir Snakemake_env_probes_design).
+2. Install mamba in your base environment $ conda install mamba -n base -c conda-forge
+3. Install snakemake in a close environment $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
+4. Activate snakemake environment $ mamba activate snakemake
+5. $ snakemake --help
+6. Upload all the files you need to your folder 'Snakemake_env_probes_design'
+7. Prepare your input files or use example
 3. download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
 4. unzip CDS fasta file using `$gunzip Potrx01-CDS.fa`
 5. generate primer3 input file using `$python3 primer3_intput_design_T89.py`
