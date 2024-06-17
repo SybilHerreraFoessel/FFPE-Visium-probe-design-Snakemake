@@ -34,20 +34,33 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 2. Install mamba in your base environment $ conda install mamba -n base -c conda-forge
 3. Install snakemake in a close environment $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
 4. Activate snakemake environment $ mamba activate snakemake
-5. $ snakemake --help
-6. Upload all the files you need to your folder 'Snakemake_env_probes_design'
-7. Prepare your input files or use example
-3. download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
-4. unzip CDS fasta file using `$gunzip Potrx01-CDS.fa`
-5. generate primer3 input file using `$python3 primer3_intput_design_T89.py`
-    1. note: depending on the layout and format of your marker gene input file, one should modify this file 
+5. $ snakemake --help $ snakemake --version
+6. Upload all the files ($ scp -r -i .ssh/sybil Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/.) Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to your folder 'Snakemake_env_probes_design'
+7. Prepare your input files or use example_input (upload $ *.xlsx)
+8. Download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
+9. unzip CDS fasta file using `$ gunzip Potrx01-CDS.fa`
+10. Install primer3 $ conda install -c bioconda primer3
+11. Install blast $ mamba install blast
 
-## Primer3
+## Run Snakemake
 
-1. install primer3 command line version using `$conda install -c bioconda primer3`
-2. run primer3: `$primer3_core < primer3_input_full.txt > primer3_output.txt`
+## Visualization of snakemake workflow
+snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
+snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
+snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
+snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
-**Criteria taken care of in this step:** 
+![image](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/assets/102509405/a850eca0-f966-4e78-9bb3-5cf46910ce5c)
+
+##  Assessing cross-probe hybridisation
+Add Sybil, second Snakefile_New3
+
+
+
+
+## Additional information provided by Ireen
+
+**Criteria taken care of in primer3 run** 
 
 - probe size = 25 nucleotides
 - GC range for LHS probe = 44% - 72%
@@ -55,11 +68,8 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 - maximum length of mononucleotide repeats = 5
 - n probes generated per sequence = 35 (to be filtered down in later steps)
 
-## Generate probe pairs
 
-1. run `$python3 generate_probe_pairs.py > possible_probe_pairs.txt.`
-
-**output:** 
+**Generate probe pairs output:** 
 
 - preliminary list of primer pairs including:
     1. sequence ID 
@@ -82,22 +92,18 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 - RHS probe must fit on the sequence template
 - LHS and RHS hybridising sequences must be ligated to their corresponding probe handles
 
-## Off target hybridisation (BLAST)
+**Off target hybridisation (BLAST)**
 
-1. install command line BLAST following the [NCBI instructions](https://www.ncbi.nlm.nih.gov/books/NBK52640/)
-2. build a blast database `$makeblastdb -in Potrx01-CDS.fasta -dbtype nucl -parse_seqids -out db/Potrx-CDS-db`
-3. copy probe_pairs_hyb_T89.fasta to your blast folder
-4. blast the probe_pairs_hyb_T89.fasta against the database `$blastn -db db/Potrx-CDS-db -query probe_pairs_hyb_comb_T89.fasta > probes_pairs_comb_target_specificity_CDS.txt -outfmt "6 qseqid sseqid pident”`
+build a blast database using makeblastdb and blast agains reference genome (fasta file)
     - note: include `-task blastn-short` when blasting sequences < 30 nucleotides (i.e. when blasting RHS and LHS invidiually)
     - note: the output contains probe ID, sequence ID and percentage identity
     - note: with standard blast threshold (E value = 0.05), the lowest percentage identity included in the hits is 88%
-5. clean up blast output file using target_specificity_trim.py
+
+**clean up blast output file using target_specificity_trim**
     1. keep only match for highest transcript variant, remove duplicate matches to the same gene different transcript variant 
     2. output “trimmed_paired_probes_target_specificity_CDS.txt” 
 
-## Probe overlap correction
-
-1. run `$python3 select_probe_pairs.py > selected_probes.txt`
+**Probe overlap correction- select probe pairs**
 
 **output** 
 
@@ -110,6 +116,5 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 - if probe pairs > 3, then do not accumulate more probes
 - (optional: remove sequences for which no probe pairs could be generated)
 
-##  Assessing cross-probe hybridisation
 
-## Visualization of snakemake workflow (dag)
+
