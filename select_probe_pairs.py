@@ -9,6 +9,7 @@ input files:
 - trimmed BLAST output generated using target_specificity_trim.py 
 
 output: final probe pairs 
+corrected to correct path for trimmed file
 """
 
 import pandas as pd 
