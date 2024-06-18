@@ -43,10 +43,10 @@ These files are generated for having better control:
 3. Install snakemake in a close environment $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
 4. Activate snakemake environment $ mamba activate snakemake
 5. $ snakemake --help $ snakemake --version
-6. Upload all the files ($ scp -r -i .ssh/sybil Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/.) Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to your folder 'Snakemake_env_probes_design'
+6. Upload all the files $ scp -r -i .ssh/name Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/. Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to your folder 'Snakemake_env_probes_design'
 7. Prepare your input files or use example_input (upload $ *.xlsx)
 8. Download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
-9. unzip CDS fasta file using `$ gunzip Potrx01-CDS.fa`
+9. Unzip CDS fasta file using `$ gunzip Potrx01-CDS.fa`
 10. Install primer3 $ conda install -c bioconda primer3
 11. Install blast $ mamba install blast
 
