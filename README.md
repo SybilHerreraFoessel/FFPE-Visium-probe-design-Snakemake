@@ -81,15 +81,6 @@ Preparation
 
 The input file cleaned_sequences.fasta has been cleaned for prefix and poly A tail. The scripts for doing this part will be uploaded soon.  
 
-**Run BLAST search**
-blastn -query cleaned_sequences.fasta -db cluster_data -out results.txt -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" -max_target_seqs 1
-
-Filter results to include only matches with >= 99% identity
-awk '$3 >= 99' results.txt > filtered_results.txt
-
-Notify user of completion
-echo "Filtering completed. Filtered results are saved in 'filtered_results.txt'."
-
 
 ## Additional information provided by Ireen
 
