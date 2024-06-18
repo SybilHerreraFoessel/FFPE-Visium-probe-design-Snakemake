@@ -66,7 +66,7 @@ $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 ...Second Snakefile to be added...
 Information for running manually while the snakefile is being prepared.
 
-**Cross-hybrydization**
+**Check for Cross-hybrydization**
 
 Two sh files are available in step2 folder. One for downloading the database and the other one for executing the blasting. See the sh script files for more details. 
 
