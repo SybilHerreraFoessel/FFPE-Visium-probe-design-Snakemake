@@ -63,7 +63,7 @@ $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
 
 ##  Assessing cross-probe hybridisation and final output xlsx files for ordering primers
-Add Sybil, second Snakefile to be added
+...Second Snakefile to be added...
 Information for running manually while the snakefile is being prepared.
 
 **Cross-hybrydization preparation**
