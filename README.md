@@ -53,11 +53,16 @@ $ snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
 $ snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
 $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
+
 ##  Assessing cross-probe hybridisation and final output xlsx files for ordering primers
 Add Sybil, second Snakefile_New3 need to be prepared....
 
-
-
+## Additional output from the first python script (primer3_input_design_T89.py)
+These files are generated for having better control:
+num_entries_genelist_DE.txt (top10_marker_genes_T89.xlsx)
+num_entries_lit_marker_df.txt (markergenes_plus_conversion.xlsx)
+genelist_full.txt (list of all entries entering the pipeline)
+missing_genes.txt (gene IDs from genelist_full that are missing in Potrx01-CDS.fa)
 
 ## Additional information provided by Ireen
 
