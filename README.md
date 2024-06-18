@@ -98,6 +98,7 @@ Add Sybil, second Snakefile_New3 need to be prepared....
 - RHS probe must be within GC range 44%-72%
 - RHS probe must fit on the sequence template
 - LHS and RHS hybridising sequences must be ligated to their corresponding probe handles
+- Primer3 filters out primers likely to form hairpins.
 
 **Off target hybridisation (BLAST)**
 
