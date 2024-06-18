@@ -26,13 +26,14 @@ This pipeline developed by Ireen van Dolderen (with different python scripts) ha
 - trimmed_paired_probes_target_specificity_CDS.txt
 - selected_probes.txt
 
-### Additional output from the first python script (primer3_input_design_T89.py)
-
+Additional output from the first python script (primer3_input_design_T89.py)
 These files are generated for having better control:
-num_entries_genelist_DE.txt (top10_marker_genes_T89.xlsx)
-num_entries_lit_marker_df.txt (markergenes_plus_conversion.xlsx)
-genelist_full.txt (list of all entries entering the pipeline)
-missing_genes.txt (gene IDs from genelist_full that are missing in Potrx01-CDS.fa)
+- num_entries_genelist_DE.txt (top10_marker_genes_T89.xlsx)
+- num_entries_lit_marker_df.txt (markergenes_plus_conversion.xlsx)
+- genelist_full.txt (list of all entries entering the pipeline)
+- missing_genes.txt (gene IDs from genelist_full that are missing in Potrx01-CDS.fa)
+
+
 ---
 
 ## Preparation
