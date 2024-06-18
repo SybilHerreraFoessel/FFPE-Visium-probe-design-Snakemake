@@ -63,7 +63,40 @@ $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
 
 ##  Assessing cross-probe hybridisation and final output xlsx files for ordering primers
-Add Sybil, second Snakefile_New3 need to be prepared....
+Add Sybil, second Snakefile to be added
+Information for running manually while the snakefile is being prepared.
+
+**Cross-hybrydization preparation**
+
+Step2.
+1. Prepare a folder for cross-hybrization in st-analysis $ mkdir cross-hybridization/db
+2. In step2 folder you will find the download_db.sh script, download or copy to your folder .. db/
+3. Make script executable $ chmod +x download_db.sh
+4. and then run it directly on your terminal (no slurm) 
+./download_db.sh 
+5. In step2 folder you also have script_check_cross.sh for running the blast search (this is a slurm sbatch script), copy to the same folder.
+6. Run this sh file on slurm $ sbatch script_check_cross.sh, this script will generate filtered_results/filtered_results.txt
+
+   # Run BLAST search
+blastn -query cleaned_sequences.fasta -db cluster_data -out results.txt -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" -max_target_seqs 1
+
+# Filter results to include only matches with >= 99% identity
+awk '$3 >= 99' results.txt > filtered_results.txt
+
+# Notify user of completion
+echo "Filtering completed. Filtered results are saved in 'filtered_results.txt'."
+
+
+
+   
+
+
+and then run it 
+./download_db.sh 
+in your terminal.
+
+
+
 
 ## Additional information provided by Ireen
 
