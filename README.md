@@ -1,37 +1,8 @@
 # FFPE Visium probe design with snakemake
-This pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be run as a Snakemake workflow system. In addition to the input files and the python files a Snakefile has been included as well as an probes_env.yaml file. Ireen used two input files, top10_marker_genes_T89.xlsx and markergenes_plus_conversion.xlsx, the first one with markers identified from cluster analysis and the second with markers from literature review. The top10_marker_genes_T89.xlsx can be used for pasting the new markers that you want to include in the 'gene' column and in markergenes_plus_conversion.xlsx the 'T 89' column is used by the first python script (primer3_input_design_T89.py) for extracting the entries (duplified are checked within the script).       
+The pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be run as a Snakemake workflow system. See folder Step1 for the updated files. The entire pipeline consists of 2 steps, step 1 consisting of the pipeline originally developed by Ireen van Dolderen, here adapted to Snakemake, and modified to be more generalizable with only one input file for the gene of interest. Step2 are scripts developed by Sybil Herrera Foessel that include blasting against databases (env-nt, prok-nt, and viruses-nt) to check sequences (trimmed from A-tail and prefix) for cross-hybridization, excluding sequences with 99% similarity and preparing files for probe ordering.             
 
 ![Rule Graph](rulegraph.png)
 ![File Graph](filegraph.png)
-
-
-## Files needed
-
-- top10_marker_genes_T89.xlsx #input file 1. 
-- markergenes_plus_conversion.xlsx #Excel file with marker genes based on literature research, input file 2. 
-- primer3_input_design_T89.py
-- generate_probe_pairs.py
-- target_specificity_trim.py
-- select_probe_pairs.py
-- Snakefile_New2
-- probes_env.yaml
-
-## Output files
-
-- primer3_input_full.txt
-- primer3_output.txt
-- probe_pairs_hyb_T89.fasta
-- possible_probe_pairs.txt
-- probes_pairs_comb_target_specificity_CDS.txt
-- trimmed_paired_probes_target_specificity_CDS.txt
-- selected_probes.txt
-
-Additional output from the first python script (primer3_input_design_T89.py)
-These files are generated for having better control:
-- num_entries_genelist_DE.txt (top10_marker_genes_T89.xlsx)
-- num_entries_lit_marker_df.txt (markergenes_plus_conversion.xlsx)
-- genelist_full.txt (list of all entries entering the pipeline)
-- missing_genes.txt (gene IDs from genelist_full that are missing in Potrx01-CDS.fa)
 
 
 ---
@@ -44,28 +15,27 @@ These files are generated for having better control:
 4. Activate snakemake environment $ mamba activate snakemake
 5. $ snakemake --help $ snakemake --version
 6. Upload all the files $ scp -r -i .ssh/name Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/. Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to your folder 'Snakemake_env_probes_design'
-7. Prepare your input files or use example_input (upload $ *.xlsx)
+7. Prepare your input file (upload $ *.xlsx)
 8. Download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
 9. Unzip CDS fasta file using `$ gunzip Potrx01-CDS.fa`
 10. Install primer3 $ conda install -c bioconda primer3
 11. Install blast $ mamba install blast
 
 ## Run Snakemake
-1. First make a dry run to see that everything is in place $ snakemake -c 1 -s Snakefile_New2 --use-conda -n
-2. Now run the workflow $ snakemake -c 1 --use-conda -s Snakefile_New2
-3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_New2 --rerun-incomplete
+1. First make a dry run to see that everything is in place $ snakemake -c 1 -s Snakefile_name --use-conda -np
+2. Now run the workflow $ snakemake -c 1 --use-conda -s Snakefile_name
+3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_name --rerun-incomplete
 4. If you want to delete outputs and run again $ snakemake --delete-all-output
 
 ## Visualization of snakemake workflow
 $ conda install graphviz
+
 $ snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
+
 $ snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
+
 $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
-
-##  Assessing cross-probe hybridisation and final output xlsx files for ordering primers
-...Second Snakefile to be added...
-Information for running manually while the snakefile is being prepared.
 
 **Check for Cross-hybrydization**
 
