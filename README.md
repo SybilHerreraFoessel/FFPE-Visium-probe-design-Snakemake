@@ -57,6 +57,7 @@ These files are generated for having better control:
 4. If you want to delete outputs and run again $ snakemake --delete-all-output
 
 ## Visualization of snakemake workflow
+$ conda install graphviz
 $ snakemake -s Snakefile_New2 --dag | dot -Tpdf > dag.pdf
 $ snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
 $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
