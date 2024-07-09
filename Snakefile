@@ -1,3 +1,3 @@
-Use updated files from Step1
+Use updated files from Step1 folder
 
 
