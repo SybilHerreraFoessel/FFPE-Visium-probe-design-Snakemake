@@ -1,3 +1,3 @@
 # FFPE Visium probe design with snakemake
-This pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be run as a Snakemake workflow system. In addition to the input files and the python files a Snakefile has been included as well as an probes_env.yaml file. Ireen used two input files, top10_marker_genes_T89.xlsx and markergenes_plus_conversion.xlsx, the first one with markers identified from cluster analysis and the second with markers from literature review. The top10_marker_genes_T89.xlsx can be used for pasting the new markers that you want to include in the 'gene' column and in markergenes_plus_conversion.xlsx the 'T 89' column is used by the first python script (primer3_input_design_T89.py) for extracting the entries (duplified are checked within the script).       
-
+The pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be 
+run as a Snakemake workflow system (all necessary files included in the Step1 folder). 
