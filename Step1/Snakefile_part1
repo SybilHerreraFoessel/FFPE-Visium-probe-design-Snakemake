@@ -1,0 +1,105 @@
+# Rules to generate probe pairs
+# Snakefile part1 of FFPE probes design
+rule all:
+  input:
+    "selected_probes.txt"
+
+# Rule to download the reference genome
+#rule download_reference_genome:
+#  output:
+#    "reference_genome.fa"
+#  params:
+#    url="https://example.com/reference_genome.fa"  # Replace with the actual URL
+#  conda:
+#    "probes_env.yaml"
+#  shell:
+#    """
+#    wget -O {output} {params.url}
+#    """
+
+# Change ref_genome input if it is different:
+rule create_primer3_input:
+    input:
+        "Input_genes_to_pipeline.xlsx",
+        ref_genome="Potra02_CDS.fa"
+    output:
+        "primer3_input_full.txt"
+    conda:
+        "probes_env.yaml"
+    shell:
+        "python3 primer3_input_design2.py {input} > {output}"
+
+# Rule to run primer3
+rule run_primer3:
+    input:
+        "primer3_input_full.txt"
+    output:
+        "primer3_output.txt"
+    shell:
+        "primer3_core < {input} > {output}"
+
+# Rule to generate probe pairs
+rule generate_probe_pairs:
+    input:
+        "primer3_output.txt"
+    output:
+        "probe_pairs_hyb_comb_T89.fasta"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p idt_files
+        mkdir -p probe_fasta_files
+        python3 generate_probe_pairs_snakemake2.py {input} > {output}
+        """
+
+#change ref_genome input if it is different:
+rule prepare_blast_database:
+    input:
+        ref_genome="Potra02_CDS.fa"
+    output:
+        expand("db/ref_genome-db.{suffix}", suffix=['ndb', 'nhr', 'nin', 'njs', 'nog', 'nos', 'not', 'nsq', 'ntf', 'nto'])  
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p db
+        makeblastdb -in {input.ref_genome} -dbtype nucl -parse_seqids -out db/ref_genome-db
+        """
+
+rule blast_against_ref:
+    input:
+       "probe_pairs_hyb_comb_T89.fasta",
+       rules.prepare_blast_database.output
+    output:
+       "probes_pairs_comb_target_specificity_CDS.txt"
+    conda:
+       "probes_env.yaml"
+    shell:
+       """
+       cp {input[0]} db/
+       blastn -db db/ref_genome-db -query {input[0]} > {output} -outfmt "6 qseqid sseqid pident"
+       """
+
+rule specificity_trim:
+    input:
+      "probes_pairs_comb_target_specificity_CDS.txt"
+    output:
+      "trimmed_paired_probes_target_specificity_CDS.txt"
+    conda:
+      "probes_env.yaml"
+    shell:
+      """
+      python3 target_specificity_trim.py
+      """
+
+rule select_probes_pairs:
+    input:
+      "trimmed_paired_probes_target_specificity_CDS.txt"
+    output:
+      "selected_probes.txt"
+    conda:
+      "probes_env.yaml"
+    shell:
+      "python3 select_probe_pairs2.py > {output}"
+
