@@ -28,12 +28,10 @@ RHS probe template: /5Phos/-target_RHS-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-3’
 
 This script has been modified by Sybil Herrera Foessel to match snakemake
 """
-# Import necessary packages
 from Bio.SeqUtils import gc_fraction
 from Bio.Seq import Seq
-import os
+import sys
 
-# Define the Probe and Sequence classes
 class Probe:
     def __init__(self):
         self.RHS_ID = ""  # ID of RHS probe
@@ -51,84 +49,89 @@ class Sequence:
         self.TEMPLATE = ""    # Sequence template
         self.PROBES = []      # Probes belonging to that sequence
 
-# Function to create RHS probe based on LHS probe
 def create_rhs(sequence, probe):
-    my_dna = Seq(sequence.TEMPLATE)
-    RHS_start = int(probe.START) + 25
-    RHS_end = int(RHS_start) + 25
-    RHS_seq = my_dna[RHS_start:RHS_end]
-    RHS_GC = str(format(float(gc_fraction(RHS_seq) * 100), '.3f'))
-    RHS = str(RHS_seq) + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  # Adding probe handle
-    return RHS, RHS_GC, str(RHS_end)
+    try:
+        my_dna = Seq(sequence.TEMPLATE)
+        RHS_start = int(probe.START) + 25
+        RHS_end = RHS_start + 25
+        RHS_seq = my_dna[RHS_start:RHS_end]
+        RHS_GC = format(gc_fraction(RHS_seq) * 100, '.3f')
+        RHS = str(RHS_seq) + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  # Adding probe handle
+        return RHS, RHS_GC, str(RHS_end)
+    except Exception as e:
+        print(f"Error creating RHS probe: {e}")
+        return "", "0", "0"
 
-# Function to process primer3 output and generate probe pairs
 def process_primer3_output(primer3_output_file):
-    with open(primer3_output_file, 'r') as file:
-        lines = file.readlines()
+    try:
+        with open(primer3_output_file, 'r') as file:
+            lines = file.readlines()
 
-    sequences = []
-    new_sequence = Sequence()
-    new_probe = Probe()
-    probe_collection_mode = False
+        sequences = []
+        new_sequence = Sequence()
+        new_probe = Probe()
+        probe_collection_mode = False
 
-    for line in lines:
-        if line == "=\n":  # Indicates end of a sequence query in primer3 output
-            i = 0
-            for probe in new_sequence.PROBES:
-                probe.LHS_ID = f"{new_sequence.ID}_LHS_{i}"
-                probe.RHS_ID = f"{new_sequence.ID}_RHS_{i}"
-                i += 1
-            sequences.append(new_sequence)
-            new_sequence = Sequence()
-        information = line.split('=')
-        information[0] = ''.join([char for char in information[0] if not char.isdigit()])
-        information[1] = information[1].replace('\n', '')
+        for line in lines:
+            if line == "=\n":  # Indicates end of a sequence query in primer3 output
+                for i, probe in enumerate(new_sequence.PROBES):
+                    probe.LHS_ID = f"{new_sequence.ID}_LHS_{i}"
+                    probe.RHS_ID = f"{new_sequence.ID}_RHS_{i}"
+                sequences.append(new_sequence)
+                new_sequence = Sequence()
+                continue
 
-        if information[0] == "SEQUENCE_ID":
-            new_sequence.ID = information[1]
-        if information[0] == "SEQUENCE_TEMPLATE":
-            new_sequence.TEMPLATE = information[1]
+            information = line.split('=')
+            if len(information) < 2:
+                continue
+            key = ''.join([char for char in information[0] if not char.isdigit()])
+            value = information[1].strip()
 
-        if information[0] == "PRIMER_INTERNAL__SEQUENCE":
-            if information[1][-1] == 'T':
-                new_probe.LHS = "CCTTGGCACCCGAGAATTCCA" + information[1]
-                probe_collection_mode = True
+            if key == "SEQUENCE_ID":
+                new_sequence.ID = value
+            elif key == "SEQUENCE_TEMPLATE":
+                new_sequence.TEMPLATE = value
+            elif key == "PRIMER_INTERNAL__SEQUENCE":
+                if value[-1] == 'T':
+                    new_probe.LHS = "CCTTGGCACCCGAGAATTCCA" + value
+                    probe_collection_mode = True
+            elif key == "PRIMER_INTERNAL_" and probe_collection_mode:
+                new_probe.START = value.split(',')[0]
+            elif key == "PRIMER_INTERNAL__GC_PERCENT" and probe_collection_mode:
+                new_probe.LHS_GC = value
+                new_probe.RHS, new_probe.RHS_GC, new_probe.END = create_rhs(new_sequence, new_probe)
+                new_sequence.PROBES.append(new_probe)
+                new_probe = Probe()
+                probe_collection_mode = False
 
-        if information[0] == "PRIMER_INTERNAL_" and probe_collection_mode:
-            new_probe.START = information[1].split(',')[0]
+        return sequences
 
-        if information[0] == "PRIMER_INTERNAL__GC_PERCENT" and probe_collection_mode:
-            new_probe.LHS_GC = information[1]
-            new_probe.RHS, new_probe.RHS_GC, new_probe.END = create_rhs(new_sequence, new_probe)
-            new_sequence.PROBES.append(new_probe)
-            new_probe = Probe()
-            probe_collection_mode = False
+    except Exception as e:
+        print(f"Error processing primer3 output: {e}")
+        return []
 
-    return sequences
-
-# Function to write probe pairs to fasta file
 def write_probe_pairs_fasta(sequences, output_file):
-    with open(output_file, 'w') as fasta:
-        for sequence in sequences:
-            for probe in sequence.PROBES:
-                hyb_LHS = probe.LHS[-25:]  # Last 25 nucleotides of LHS probe
-                hyb_RHS = probe.RHS[:25]   # First 25 nucleotides of RHS probe
-                fasta.write(f">{probe.LHS_ID}\n{hyb_LHS + hyb_RHS}\n")
+    try:
+        with open(output_file, 'w') as fasta:
+            for sequence in sequences:
+                for probe in sequence.PROBES:
+                    hyb_LHS = probe.LHS[-25:]  # Last 25 nucleotides of LHS probe
+                    hyb_RHS = probe.RHS[:25]   # First 25 nucleotides of RHS probe
+                    fasta.write(f">{probe.LHS_ID}\n{hyb_LHS + hyb_RHS}\n")
+    except Exception as e:
+        print(f"Error writing to output file: {e}")
 
-# Main function to execute processing and writing
 def main(primer3_output_file, output_file):
     sequences = process_primer3_output(primer3_output_file)
-    write_probe_pairs_fasta(sequences, output_file)
+    if sequences:
+        write_probe_pairs_fasta(sequences, output_file)
 
-# Entry point of the script
 if __name__ == "__main__":
-    import sys
     if len(sys.argv) != 3:
-        print("Usage: python generate_probe_pairs_snakemake.py <primer3_output_file> <output_file>")
+        print("Usage: python generate_probe_pairs_snakemake2.py <primer3_output_file> <output_file>")
         sys.exit(1)
 
     primer3_output_file = sys.argv[1]
     output_file = sys.argv[2]
 
     main(primer3_output_file, output_file)
-
