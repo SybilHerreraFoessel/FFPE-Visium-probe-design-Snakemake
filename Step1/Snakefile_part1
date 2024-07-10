@@ -95,8 +95,8 @@ rule specificity_trim:
 
 rule select_probes_pairs:
     input:
-	    "primer3_output.txt",
-      "trimmed_paired_probes_target_specificity_CDS.txt"
+           "primer3_output.txt",
+           "trimmed_paired_probes_target_specificity_CDS.txt"
     output:
 	    "selected_probes.txt"
     conda:
