@@ -1,1 +1,72 @@
+# Snakefile_part2
+# This Snakefile is for using after part1 and includes checking the probes for cross-hybridization against 3 databases.
+# After these steps there will be two different Snakefiles to deal with hits or no-hits for those databases and generating
+# the final output (excel files for ordering probes). 
+
+BLAST_DB_DIR = "/home/sybil.hf/cross_hybridization/blast_db_experimental/db"
+BLAST_DBS = ["env_nt", "nt_prok", "nt_viruses"]
+
+rule prepare_probeslist_for_part2_from_Ireens_output:
+    input:
+	"selected_probes.txt"
+    output:
+	"probes.fasta"
+    shell:
+	"python3 extract_probes_from_part1.py"
+
+rule merge_LHS_RHS_for_each_gene:
+    input:
+	"probes.fasta"
+    output:
+	"merged_sequences.txt"
+    shell:
+	"python3 script_merge_probes.py"
+
+rule trim_from_Atail_for_cross_hybridization_check:
+    input:
+	"merged_sequences.txt"
+    output:
+	"cleaned_sequences.fasta"
+    shell:
+	"python3 clean_from_Atail.py"
+
+rule trim_from_prefix_for_cross_hybridization_check:
+    input:
+        "cleaned_sequences.fasta"
+    output:
+	"cleaned_sequences_from_prefix.fasta"
+    shell:
+	"python3 clean_prefix.py"
+
+# Rule to download the BLAST database if not already downloaded
+# rule download_db_blast_for_cross_hybridization_check:
+#     output:
+#         "download_complete.txt"
+#     run:
+#         import os
+#         if not os.path.exists(output[0]):
+#             shell(f"""
+#                 chmod +x download_db.sh
+#                 ./download_db.sh {BLAST_DB_DIR}
+#                 touch {output[0]}
+#             """)
+#         else:
+#             print("Database already downloaded, skipping download step.")
+
+rule blast_for_cross_hybridization_check:
+    input:
+	"cleaned_sequences_from_prefix.fasta",
+        db_dir=BLAST_DB_DIR,
+        db_complete="download_complete.txt"
+    output:
+	expand("blast_cross_results/results_{db}_nt.txt", db=BLAST_DBS)
+    shell:
+	"""
+	mkdir -p blast_cross_results
+        for db in {BLAST_DBS}; do
+            blastn -db {input.db_dir}/$db -query {input[0]} -out blast_cross_results/results_${{db}}_nt.txt -outfmt 6;
+        done
+	"""
+
+
 
