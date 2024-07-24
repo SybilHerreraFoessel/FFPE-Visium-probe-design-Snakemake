@@ -26,6 +26,8 @@ The pipeline developed by Ireen van Dolderen (with different python scripts) has
 2. Now run the workflow $ snakemake -c 1 --use-conda -s Snakefile_name
 3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_name --rerun-incomplete
 4. If you want to delete outputs and run again $ snakemake -s Snakefile_name --delete-all-output
+5. To rerun everything after editing a script $ snakemake -c 1 -s Snakefile_name --use-conda --forceall -–verbose
+
 
 ## Visualization of snakemake workflow
 $ conda install graphviz
