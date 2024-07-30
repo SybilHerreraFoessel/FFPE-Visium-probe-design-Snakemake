@@ -32,6 +32,8 @@ config.yaml:
 11. Install blast $ mamba install blast
 
 ## Run Snakemake
+First run Snakefile in part1, the final output for this part is selected_probes.txt file, also check process_log.log file for any details (non_specific_probes, i.e. multiple hits).
+
 1. First make a dry run to see that everything is in place $ snakemake -c 1 -s Snakefile_name --use-conda -np
 2. Now run the workflow $ snakemake -c 1 --use-conda -s Snakefile_name
 3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_name --rerun-incomplete
@@ -39,6 +41,7 @@ config.yaml:
 5. To rerun everything after editing a script $ snakemake -c 1 -s Snakefile_name --use-conda --forceall
 6. for rerunning specific rules: snakemake -c 1 -s Snakefile_name --use-conda --force --rerun-incomplete rulename
 
+After running part1, $cp selected_probes.txt to the part2 folder. Then run the snakefile for part2. Use config.yaml for selecting how many probes per sequence ID that should be printed (max3 per sequence ID). 
 
 ## Visualization of snakemake workflow
 $ conda install graphviz
