@@ -6,6 +6,7 @@ blast_dbs:
   - "env_nt"
   - "nt_prok"
   - "nt_viruses"
+
 num_probe_pairs: 2  # Number of probe pairs to include for each sequence ID (maximum 3, as defined in part1)
 
 ##
