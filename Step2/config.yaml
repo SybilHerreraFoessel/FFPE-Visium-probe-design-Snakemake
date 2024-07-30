@@ -1,0 +1,7 @@
+blast_db_dir: "/home/sybil.hf/cross_hybridization/blast_db_experimental/db"
+blast_dbs:
+  - "env_nt"
+  - "nt_prok"
+  - "nt_viruses"
+num_probe_pairs: 2  # Number of probe pairs to include for each sequence ID
+
