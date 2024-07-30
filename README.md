@@ -19,15 +19,15 @@ config.yaml:
 
 ## Preparation
 
-1. Make a snakemake directory in ST-analysis server with your favorite name ($ mkdir Snakemake_env_probes_design).
+1. Make a snakemake directory in ST-analysis server with your favorite name ($ mkdir Snakemake_env_probes_design_part1 Snakemake_env_probes_design_part2).
 2. Install mamba in your base environment $ conda install mamba -n base -c conda-forge
 3. Install snakemake in a close environment $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
 4. Activate snakemake environment $ mamba activate snakemake
 5. $ snakemake --help $ snakemake --version
-6. Upload all the files $ scp -r -i .ssh/name Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/. Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to your folder 'Snakemake_env_probes_design'
-7. Prepare your input file (upload $ *.xlsx)
-8. Download CDS (spliced transcriptome) fasta file for reference genome using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)`
-9. Unzip CDS fasta file using `$ gunzip Potrx01-CDS.fa`
+6. Upload all the files $ scp -r -i .ssh/name Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/. Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to respective folder 'Snakemake_env_probes_design_part1' 'Snakemake_env_probes_design_part2'
+7. Prepare your input file (upload $ *.xlsx to Snakemake_env_probes_design_part1)
+8. Download CDS (spliced transcriptome) fasta file to Snakemake_env_probes_design_part1 using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)` and genome ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-genome.fa.gz Potrx01-genome.fa.gz or other species of interest. 
+9. Unzip CDS and genome fasta file using $ gunzip Potrx01-CDS.fa.gz Potrx01-genome.fa.gz 
 10. Install primer3 $ conda install -c bioconda primer3
 11. Install blast $ mamba install blast
 
@@ -37,6 +37,7 @@ config.yaml:
 3. If it gets stuck $ snakemake -c 1 --use-conda -s Snakefile_name --rerun-incomplete
 4. If you want to delete outputs and run again $ snakemake -s Snakefile_name --delete-all-output
 5. To rerun everything after editing a script $ snakemake -c 1 -s Snakefile_name --use-conda --forceall
+6. for rerunning specific rules: snakemake -c 1 -s Snakefile_name --use-conda --force --rerun-incomplete rulename
 
 
 ## Visualization of snakemake workflow
