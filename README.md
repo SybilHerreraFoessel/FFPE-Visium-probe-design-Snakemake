@@ -2,7 +2,7 @@
 The pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be run as a Snakemake workflow system. The entire pipeline includes 2 steps (with corresponding scripts, see respective folders), step 1 consisting of the pipeline originally developed by Ireen van Dolderen, here adapted to Snakemake, and modified to be more generalizable with only one input file for the gene of interest. Step2 are scripts developed by Sybil Herrera Foessel that include blasting against databases to check sequences (trimmed from A-tail and prefix) for cross-hybridization against (env-nt, prok-nt, and viruses-nt), excluding hits with 99% similarity, and preparing files for probe ordering.             
 
 ![Rule Graph](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/blob/main/Step1/rulegraph_part1.pdf)
-![Rule Graph part 2](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/blob/f746ba92061829fbb3d3b1d16d44cb3e31956cb6/Step1/rulegraph_part1.pdf)
+![Rule Graph part 2](Step2/rulegraph_part2.pdf)
 ---
 
 ## Preparation
