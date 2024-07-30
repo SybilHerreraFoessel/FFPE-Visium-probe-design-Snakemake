@@ -2,7 +2,7 @@
 The pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel et al. to be run as a Snakemake workflow system. The entire pipeline includes 2 steps (with corresponding scripts, see respective folders), step 1 consisting of the pipeline originally developed by Ireen van Dolderen, here adapted to Snakemake, and modified to be more generalizable with only one input file for the gene of interest. Probe specificity is also checked twice against the reference genome, first agaist the CDS and then against the entire genome. Step2 are scripts developed by Sybil Herrera Foessel that include blasting against databases to check sequences (trimmed from A-tail and prefix) for cross-hybridization against (env-nt, prok-nt, and viruses-nt), excluding hits with 99% similarity, and preparing files for probe ordering. The config.yaml file in part2 is used to specify: 
 
 config.yaml:
-1) blast_db_dir: "/home/sybil.hf/cross_hybridization/blast_db_experimental/db" # define your database directory for cross-hybridizationn check in part2
+1) blast_db_dir: "/home/sybil.hf/cross_hybridization/blast_db_experimental/db" # define your blast database directory in part2
 2) blast_dbs:
   - "env_nt"
   - "nt_prok"
