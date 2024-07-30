@@ -3,7 +3,7 @@ The pipeline developed by Ireen van Dolderen (with different python scripts) has
 
 ![Rule Graph](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/blob/main/Step1/rulegraph_part1.pdf)
 ![File Graph](filegraph.png)
-
+![Rule Graph](https://github.com/SybilHerreraFoessel/FFPE-Visium-probe-design-Snakemake/blob/main/Step1/rulegraph_part1.pdf)
 
 ---
 
