@@ -4,10 +4,23 @@ run as a Snakemake workflow system (all necessary files included in the Step1 fo
 
 ## Files needed
 
-- Input_genes_to_pipeline.xlsx #input file 1. #paste genes of interest in 'gene' column 
+- Input_genes_to_pipeline.xlsx #input file 1. #paste genes of interest in 'gene' column
+- Snakefile_part1_blast_twice_log 
 - primer3_input_design2.py
-- generate_probe_pairs_snakemake2.py
-- target_specificity_trim.py
-- select_probe_pairs.py
-- Snakefile_part1
+- generate_probe_pairs_snakemake3.py
+- target_specificity_trim_CDS_genome.py
+- select_probe_pairs_after_blast_twice.py
 - probes_env.yaml
+
+
+In the Snakefile adjust the blast parameters for each respective rule (CDS and genome)
+        db_dir="db_cds",
+        db="ref_cds-db",
+        evalue=10, # default 10
+        word_size=11, # default 11
+        reward=1, # default 1
+        penalty=-2, # default -2
+        task="blastn-short" # default blastn
+
+Final output for part1: selected_probes.txt and the process_log.log file 
+Copy selected_probes.txt $cp selected_probes.txt part2/. for running part2
