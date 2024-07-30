@@ -4,8 +4,8 @@ The pipeline developed by Ireen van Dolderen (with different python scripts) has
 ##
 ![Rule Graph part1](Step1/rulegraph_part1.png)
 ![Rule Graph part2](Step2/rulegraph_part2.png)
-*Figure 1: Rule Graph part 1*
-*Figure 1: Rule Graph part 2*
+*Figure 1 (left): Rule Graph part 1*
+*Figure 2 (right): Rule Graph part 2*
 
 ---
 
