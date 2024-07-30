@@ -40,6 +40,7 @@ First run Snakefile in part1, the final output for this part is selected_probes.
 4. If you want to delete outputs and run again $ snakemake -s Snakefile_name --delete-all-output
 5. To rerun everything after editing a script $ snakemake -c 1 -s Snakefile_name --use-conda --forceall
 6. for rerunning specific rules: snakemake -c 1 -s Snakefile_name --use-conda --force --rerun-incomplete rulename
+7. Check respective log file in logs/ folder if something is wrong or in the general snakemake log file.
 
 After running part1, $cp selected_probes.txt to the part2 folder. Then run the snakefile for part2. Use config.yaml for selecting how many probes per sequence ID that should be printed (max3 per sequence ID). 
 
