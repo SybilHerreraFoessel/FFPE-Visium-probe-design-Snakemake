@@ -3,7 +3,7 @@ The pipeline developed by Ireen van Dolderen (with different python scripts) has
 
 ##
 ![Rule Graph part1](Step1/rulegraph_part1.png)
-![Rule Graph part 2](Step2/rulegraph_part2.pdf)
+![Rule Graph part2](Step2/rulegraph_part2.png)
 ---
 
 ## Preparation
