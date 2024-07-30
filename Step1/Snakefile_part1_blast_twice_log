@@ -103,7 +103,7 @@ rule blast_against_CDS:
 # Rule to prepare BLAST database for genome
 rule prepare_blast_database_with_genome:
     input:
-        ref_genome="Potrx01-genome.fa"
+        ref_genome="Potra02-genome.fa"
     output:
         expand("db_genome/ref_genome-db.{suffix}", suffix=['ndb', 'nhr', 'nin', 'njs', 'nog', 'nos', 'not', 'nsq', 'ntf', 'nto'])
     log:
