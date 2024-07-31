@@ -1,4 +1,4 @@
-# FFPE Visium probe design with snakemake
+# FFPE Visium probe design with snakemake part 1
 The pipeline developed by Ireen van Dolderen (with different python scripts) has been modified by Sybil Herrera Foessel to be 
 run as a Snakemake workflow system (all necessary files included in the Step1 folder).   
 
