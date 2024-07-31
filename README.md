@@ -42,6 +42,7 @@ This pipeline has been adapted to the ST-analysis server and is run within conda
 9. Unzip CDS and genome fasta file using $ gunzip Potrx01-CDS.fa.gz Potrx01-genome.fa.gz 
 10. Install primer3 $ conda install -c bioconda primer3
 11. Install blast $ mamba install blast
+12. Download the three databases for cross-hybridization check in part 2 manually (see Download databased used for Cross-hybrydization check (not part of snakemake pipeline, below) and save in a separate directory. The path to the directory needs to be defined in the config.yaml for part2. 
 
 ## Run Snakemake
 First run Snakefile in part1, the final output for this part is selected_probes.txt file, also check process_log.log file for any details (non_specific_probes, i.e. multiple hits).
