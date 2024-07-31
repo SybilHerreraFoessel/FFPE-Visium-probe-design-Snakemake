@@ -1,0 +1,135 @@
+# Rules to generate probe pairs
+# Snakefile part1 of FFPE probes design
+
+# Final target rule
+rule all:
+    input:
+        "selected_probes.txt"
+
+# Rule to create primer3 input
+rule create_primer3_input:
+    input:
+        xlsx="Input_genes_to_pipeline.xlsx",
+        ref_genome="Potra02_CDS.fa"
+    output:
+        "primer3_input_full.txt"
+    log:
+        "logs/create_primer3_input.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p logs
+        python3 primer3_input_design2.py {input.xlsx} {input.ref_genome} > {output} 2> {log}
+        """
+
+# Rule to run primer3
+rule run_primer3:
+    input:
+        "primer3_input_full.txt"
+    output:
+        "primer3_output.txt"
+    log:
+        "logs/run_primer3.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p logs
+        primer3_core < {input} > {output} 2> {log}
+        """
+
+# Rule to generate probe pairs
+rule generate_probe_pairs:
+    input:
+        "primer3_output.txt"
+    output:
+        probe_seq_files=directory("idt_files/"),
+        combined_fasta="probe_pairs_hyb_comb.fasta",
+        sequence_fasta_files=directory("probe_fasta_files/")
+    log:
+        "logs/generate_probe_pairs.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p idt_files
+        mkdir -p probe_fasta_files
+        python3 generate_probe_pairs_snakemake3.py {input} {output.combined_fasta} 2> {log}
+        """
+
+# Rule to prepare BLAST database
+rule prepare_blast_database:
+    input:
+        ref_genome="Potra02_CDS.fa"
+    output:
+        expand("db/ref_genome-db.{suffix}", suffix=['ndb', 'nhr', 'nin', 'njs', 'nog', 'nos', 'not', 'nsq', 'ntf', 'nto'])
+    log:
+        "logs/prepare_blast_database.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p db
+        makeblastdb -in {input.ref_genome} -dbtype nucl -parse_seqids -out db/ref_genome-db 2> {log}
+        """
+
+# Rule to run BLAST against reference
+rule blast_against_ref:
+    input:
+        fasta="db/probe_pairs_hyb_comb.fasta",  # Query file located in db/
+        db_files=rules.prepare_blast_database.output
+    output:
+        "probes_pairs_comb_target_specificity_CDS.txt"
+    params:
+        db_dir="db",              # Directory where the database is located
+        db="ref_genome-db",       # The name of the BLAST database
+        evalue=10,             # Very stringent e-value threshold for high specificity, default 10
+        word_sise=11,             # Smaller word size for better sensitivity with short probes, default 11
+        reward=1,                # Reward for matching bases, default 1
+        penalty=-2,              # Higher penalty for mismatches to enforce specificity, default -2
+        task="blastn-short"     # BLAST task optimized for short sequences, default blastn
+    log:
+        "logs/blast_against_ref.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        blastn -db {params.db_dir}/{params.db} -query {input.fasta} -out {output} \
+               -outfmt 6 -evalue {params.evalue} -word_size {params.word_size} \
+               -reward {params.reward} -penalty {params.penalty} -task {params.task} 2> {log}
+        """
+
+# Rule to filter probe pairs based on specificity
+rule specificity_trim:
+    input:
+        "probes_pairs_comb_target_specificity_CDS.txt"
+    output:
+        "trimmed_paired_probes_target_specificity_CDS.txt"
+    log:
+        "logs/specificity_trim.log"
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        python3 target_specificity_trim.py 2> {log}
+        """
+
+# Rule to select final probe pairs
+rule select_probes_pairs:
+    input:
+        primer3_output="primer3_output.txt",
+        blast_output="trimmed_paired_probes_target_specificity_CDS.txt"
+    output:
+        selected_probes="selected_probes.txt",
+        log_process = "process_log.txt" # internal log file   
+    log:
+        "logs/select_probes_pairs.log" # snakemake log file
+    conda:
+        "probes_env.yaml"
+    shell:
+        """
+        mkdir -p logs
+        python3 select_probe_pairs3.py {input.primer3_output} {input.blast_output} {output.selected_probes} 2> {log}
+        """
+
