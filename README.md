@@ -10,6 +10,16 @@ config.yaml:
 
 3) num_probe_pairs: 2  # Number of probe pairs to include for each sequence ID (maximum 3, as defined in part1)
 
+Additional modifications from the original pipeline:
+
+Parameters in the blast queries can be changed in both Snakefiles which allows for more flexibility and control:
+
+     evalue=10, # e-value threshold, default 10
+     word_size=11, #word size for alignment, default 11
+     reward=1, #score for a match, default 1
+     penalty=-2,  #penalty for a mismatch, default -2
+     task="blastn-short" #default blastn 
+
 ##
 ![Rule Graph part1](Step1/rulegraph_part1.png)
 ![Rule Graph part2](Step2/rulegraph_part2.png)
