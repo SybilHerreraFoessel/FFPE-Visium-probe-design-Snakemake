@@ -83,11 +83,11 @@ rule blast_against_CDS:
     params:
         db_dir="db_cds",
         db="ref_cds-db",
-        evalue=10,
-        word_size=11,
-        reward=1,
-        penalty=-2,
-        task="blastn-short"
+        evalue=10, #default 10
+        word_size=11, #default 11
+        reward=1, #default 1
+        penalty=-2,  #default -2
+        task="blastn-short" # default blastn
     log:
         "logs/blast_against_CDS.log"
     conda:
