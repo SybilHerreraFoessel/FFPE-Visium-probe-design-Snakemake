@@ -20,7 +20,7 @@ config.yaml:
 
 ## Preparation
 
-1. Make a snakemake directory in ST-analysis server with your favorite name ($ mkdir Snakemake_env_probes_design_part1 Snakemake_env_probes_design_part2).
+1. Make a snakemake directory in ST-analysis server with your favorite name for part 1 and part 2 ($ mkdir Snakemake_env_probes_design_part1 Snakemake_env_probes_design_part2).
 2. Install mamba in your base environment $ conda install mamba -n base -c conda-forge
 3. Install snakemake in a close environment $ mamba create -c conda-forge -c bioconda -n snakemake snakemake
 4. Activate snakemake environment $ mamba activate snakemake
