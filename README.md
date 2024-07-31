@@ -68,7 +68,7 @@ $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
 **Download databased used for Cross-hybrydization check (not part of snakemake pipeline)**
 
-Two sh files are available in step2/Download_databases_for_cross_check/ folder (these files are not included in the Snakefile). One for downloading the database and the other one for executing the blasting through slurm (this is not needed since they can be run directly on shell or using the Snakefiles). See the sh script files for more details. 
+Two sh files are available in step2/Download_databases_for_cross_check/ folder (these files are not included in the Snakefile). One for downloading the database for cross hybridization check and the other one example for executing blasting through slurm (this is not needed since they can be run directly on shell or using the Snakefiles). See the sh script files for more details. 
 
 Preparation
 1. Prepare a folder for cross-hybrization in st-analysis $ mkdir cross-hybridization/db
