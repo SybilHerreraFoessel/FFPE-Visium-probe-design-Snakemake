@@ -69,16 +69,16 @@ $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
 **Download databased used for Cross-hybrydization check (not part of snakemake pipeline)**
 
-Two sh files are available in step2/Download_databases_for_cross_check/ folder (these files are not included in the Snakefile). One for downloading the database for cross hybridization check and the other one example for executing blasting through slurm (this is not needed since they can be run directly on shell or using the Snakefiles). See the sh script files for more details. 
+Two sh files are available in step2/Download_databases_for_cross_check/ folder (these files are not included in the Snakefile). One for downloading the database for cross hybridization check, this step needs to be made before running step 2 with snakemake, and the other sh file is one example for executing blasting through slurm (this is not needed since the Snakefile is used for the query through the shell). See the sh script files for more details. 
 
 Preparation
-1. Prepare a folder for cross-hybrization in st-analysis $ mkdir cross-hybridization/db
+1. Prepare a folder for cross-hybridization in st-analysis $ mkdir cross-hybridization/db
 2. In step2 folder you will find the download_db.sh script, download or copy to your folder .. db/
 3. Make script executable $ chmod +x download_db.sh
-4. and then run it directly on your terminal (no slurm) 
-./download_db.sh 
-5. In step2 folder you also have script_check_cross.sh for running the blast search (this is a slurm sbatch script), copy to the same folder.
-6. Run this sh file on slurm $ sbatch script_check_cross.sh, this script will generate filtered_results/filtered_results.txt
+4. and then run it directly on your terminal/shell (no slurm) 
+$ ./download_db.sh 
+5. In step2 folder you also have script_check_cross.sh for running a blast search through slurm (not needed since the Snakefile executes the blast query on the shell).
+6. Run this sh file on slurm $ sbatch script_check_cross.sh, this script will generate filtered_results/filtered_results.txt (not needed since the Snakefile executes the blast query on the shell).
 
 
 
