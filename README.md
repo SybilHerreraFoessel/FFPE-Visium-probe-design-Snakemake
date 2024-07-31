@@ -27,7 +27,7 @@ config.yaml:
 5. $ snakemake --help $ snakemake --version
 6. Upload all the files $ scp -r -i .ssh/name Desktop/path/*.py name@st-analysis.scilifelab.se:/home/name/path/. Use ($ *.py) ($ probes_env.yaml) ($ Snakefile_New2) needed to respective folder 'Snakemake_env_probes_design_part1' 'Snakemake_env_probes_design_part2'
 7. Prepare your input file (upload $ *.xlsx to Snakemake_env_probes_design_part1)
-8. Download CDS (spliced transcriptome) fasta file to Snakemake_env_probes_design_part1 using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)` and genome [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-genome.fa.gz] or other species of interest. 
+8. Download CDS (spliced transcriptome) and genome (whole genome) fasta file of your species of interest to Snakemake_env_probes_design_part1 using `$wget [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz](ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-CDS.fa.gz)` and genome [ftp://plantgenie.org:980/Data/PlantGenIE/Populus_tremula_X_Populus_tremuloides/v1.0.1/fasta/Potrx01-genome.fa.gz]. 
 9. Unzip CDS and genome fasta file using $ gunzip Potrx01-CDS.fa.gz Potrx01-genome.fa.gz 
 10. Install primer3 $ conda install -c bioconda primer3
 11. Install blast $ mamba install blast
@@ -43,7 +43,7 @@ First run Snakefile in part1, the final output for this part is selected_probes.
 6. for rerunning specific rules: snakemake -c 1 -s Snakefile_name --use-conda --force --rerun-incomplete rulename
 7. Check respective log file in logs/ folder if something is wrong or in the general snakemake log file.
 
-After running part1, $cp selected_probes.txt to the part2 folder. Then run the snakefile for part2. Use config.yaml for selecting how many probes per sequence ID that should be printed (max3 per sequence ID). 
+After running part1 copy the output file to part 2 folder with, $cp selected_probes.txt nakemake_env_probes_design_part2/. Then run the snakefile for part2. Use config.yaml for selecting how many probes per sequence ID that should be printed (max3 per sequence ID). 
 
 ## Visualization of snakemake workflow
 $ conda install graphviz
