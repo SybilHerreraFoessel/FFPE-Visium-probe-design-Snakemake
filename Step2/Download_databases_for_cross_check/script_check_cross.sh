@@ -3,7 +3,7 @@
 #SBATCH --mem 64000
 #SBATCH -t 12:00:00
 #SBATCH -J blastn_job
-#SBATCH --mail-user sybil.herrera.foessel@scilifelab.se
+#SBATCH --mail-user sxxx.hxxxx.fxxx@scilifelab.se
 #SBATCH --mail-type=ALL
 #SBATCH -e job-%J.err
 #SBATCH -o job-%J.out
