@@ -66,7 +66,7 @@ $ snakemake -s Snakefile_New2 --rulegraph | dot -Tpdf > rulegraph.pdf
 $ snakemake -s Snakefile_New2 --filegraph | dot -Tpdf > filegraph.pdf
 
 
-**Check for Cross-hybrydization (not part of snakemake pipeline)**
+**Download databased used for Cross-hybrydization check (not part of snakemake pipeline)**
 
 Two sh files are available in step2 folder (these files are not included in the Snakefile). One for downloading the database and the other one for executing the blasting. See the sh script files for more details. 
 
