@@ -25,5 +25,6 @@ In the Snakefile adjust the blast parameters for each respective rule (CDS and g
         
         task="blastn-short" # default blastn
 
-Final output for part1: selected_probes.txt and the process_log.log file 
+Final output for part1: selected_probes.txt and the process_log.log file
+
 Copy selected_probes.txt $cp selected_probes.txt part2/. for running part2
