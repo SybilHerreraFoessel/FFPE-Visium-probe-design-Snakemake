@@ -14,12 +14,18 @@ run as a Snakemake workflow system (all necessary files included in the Step1 fo
 
 
 In the Snakefile adjust the blast parameters for each respective rule (CDS and genome)
+
         db_dir="db_cds",
+        
         db="ref_cds-db",
         evalue=10, # default 10
+        
         word_size=11, # default 11
+        
         reward=1, # default 1
+        
         penalty=-2, # default -2
+        
         task="blastn-short" # default blastn
 
 Final output for part1: selected_probes.txt and the process_log.log file 
