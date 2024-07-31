@@ -29,6 +29,7 @@ Parameters in the blast queries can be changed in both Snakefiles which allows f
 ---
 
 ## Preparation
+This pipeline has been adapted to the ST-analysis server and is run within conda/mamba environments.
 
 1. Make a snakemake directory in ST-analysis server with your favorite name for part 1 and part 2 ($ mkdir Snakemake_env_probes_design_part1 Snakemake_env_probes_design_part2).
 2. Install mamba in your base environment $ conda install mamba -n base -c conda-forge
