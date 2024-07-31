@@ -12,7 +12,7 @@ config.yaml:
 
 ##
 ![Rule Graph part1](Step1/rulegraph_part1.png)
-![Rule Graph part2](Step2/rulegraph_for_part2.png)
+![Rule Graph part2](Step2/rulegraph_part2.png)
 
 *Figure 1: Rule Graph for part 1 (left), Rule Graph for part 2 (right)*
 
